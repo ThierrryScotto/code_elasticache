@@ -4,9 +4,9 @@
 const router = require('./routes/index');
 
 // routes
-// const products = require('./routes/_products');
+const students = require('./routes/_students');
 
 // constant
 const basePath = '/v1';
 
-// router.express.use(`${basePath}`,  products);
+router.express.use(`${basePath}`, students);
