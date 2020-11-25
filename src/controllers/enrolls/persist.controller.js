@@ -6,8 +6,6 @@ const { validator, response, error }  = require('common-api');
 // Database
 const enrollDB = require('../../services/db/_enrolls');
 
-// name, address, father_name, mather_name, "document"
-
 // private
 const _validateBody = (body) => {
   const registerSchema = {
