@@ -3,6 +3,9 @@
 // dependencies
 const { postgres } = require('common-api').database;
 
+// redis
+const redis = require("../../services/elasticache/_redis");
+
 const createEnroll = async (enroll) => {
   const query = `
     INSERT INTO enrolls 
@@ -17,6 +20,13 @@ const createEnroll = async (enroll) => {
 };
 
 const getEnrolls = async () => {
+  const key     = 'all-enrolls';
+  const enrolls = await elasticache.getJson(key);   
+
+  if (enrolls) { 
+    return enrolls;
+  }
+
   const query = `
     SELECT 
       * 
@@ -24,10 +34,20 @@ const getEnrolls = async () => {
       enrolls
   `;
 
-  return await postgres.read.query(query);
+  const result = await postgres.read.query(query);
+  await elasticache.setJson(key, result);
+
+  return result;
 };
 
 const getEnrollById = async (id) => {
+  const key     = `enroll-${id}`;
+  const enroll  = await elasticache.getJson(key);   
+
+  if (enroll) { 
+    return enroll;
+  }
+
   const query = `
     SELECT 
       * 
@@ -38,7 +58,10 @@ const getEnrollById = async (id) => {
   `;
 
   const values = [id];
-  return await postgres.read.queryFirstOrNull(query, values);
+  const result = await postgres.read.queryFirstOrNull(query, values);
+  await elasticache.setJson(key, result);
+
+  return result;
 };
 
 module.exports = {
