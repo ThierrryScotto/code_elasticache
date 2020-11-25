@@ -3,6 +3,19 @@
 // dependencies
 const { postgres } = require('common-api').database;
 
+const createStudent = async (idEnroll) => {
+  const query = `
+    INSERT INTO students 
+      (id_enroll)
+    VALUES 
+      ($1) 
+    RETURNING *;
+  `;
+
+  const values = [idEnroll];
+  return await postgres.read.queryFirstOrNull(query, values);
+};
+
 const getUsers = async () => {
   const query = `
     SELECT 
@@ -29,6 +42,7 @@ const getUserById = async (id) => {
 };
 
 module.exports = {
+  createStudent,
   getUserById,
   getUsers
 }

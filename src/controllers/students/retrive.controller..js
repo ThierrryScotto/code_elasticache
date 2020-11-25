@@ -1,7 +1,7 @@
 "use strict"
 
-// DB
-const userDB = require("../../services/db/_student");
+// Database
+const userDB = require("../../services/db/_students");
 
 const getUsers = async (req, res) => {
   const users = await userDB.getUsers();

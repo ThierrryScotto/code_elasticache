@@ -4,9 +4,11 @@
 const express = require('./index');
 
 //controllers
-const studentPersisteController = require('../controllers/students/retrive.controller.');
+const studentRetriveController = require('../controllers/students/retrive.controller.');
+const studentPersisteController = require('../controllers/students/persist.controller');
 
-express.router.get('/students', studentPersisteController.getUsers);
-express.router.get('/students/:studentId', studentPersisteController.getUserById);
+express.router.get('/students', studentRetriveController.getUsers);
+express.router.get('/students/:studentId', studentRetriveController.getUserById);
+express.router.post('/students', studentPersisteController.createStudent);
 
 module.exports = express.router;
