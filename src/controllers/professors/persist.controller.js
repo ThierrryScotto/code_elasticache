@@ -1,16 +1,16 @@
 "use strict"
 
 // dependencies 
-const { validator, response, error, logger }  = require('common-api');
+const { validator, response, error }  = require('common-api');
 
 // Database
-const enrollDB = require('../../services/db/_enrolls');
-const userDB = require("../../services/db/_students");
+const enrollDB    = require('../../services/db/_enrolls');
+const professorDB = require("../../services/db/_professors");
 
 // private
 const _validateBody = (body) => {
   const registerSchema = {
-    'id'  : '/RegisterUser',
+    'id'  : '/RegisterProfessor',
     'type': 'object',
     'properties': {
       'enrollId': { 'type': 'number' }
@@ -20,7 +20,7 @@ const _validateBody = (body) => {
   return validator.validate(registerSchema, body);
 };
 
-const createStudent = async (req, res) => {
+const createProfessor = async (req, res) => {
   const postBody = _validateBody(req.body);
   
   try {
@@ -30,14 +30,14 @@ const createStudent = async (req, res) => {
       throw new error.HttpError(`Enroll ${postBody.enrollId} not found`, 404, 'status-code-409_enroll-not-found');
     }
   
-    const createUser = await userDB.createStudent(enroll.id);
+    const createdProfessor = await professorDB.createProfessor(enroll.id);
 
-    return response.success(res, createUser, 201);
+    return response.success(res, createdProfessor, 201);
   } catch (err) {
     throw new error.HttpError('Internal error', 500, 'status-code-500_internal-error');
   }
 };
 
 module.exports = {
-  createStudent
+  createProfessor
 }
