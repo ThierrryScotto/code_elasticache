@@ -3,29 +3,29 @@
 // Database
 const userDB = require("../../services/db/_students");
 
-const getUsers = async (req, res) => {
-  const users = await userDB.getUsers();
+const getStudents = async (req, res) => {
+  const students = await userDB.getStudents();
 
-  if (!users) {
-    return res.status(404).send({ message: "No user found " });
+  if (!students) {
+    return res.status(404).send({ message: "No Student found " });
   }
 
-  return res.status(200).send(users);
+  return res.status(200).send(students);
 }
 
-const getUserById = async (req, res) => {
+const getStudentsById = async (req, res) => {
   const { studentId } = req.params;
 
-  const user = await userDB.getUserById(studentId);
+  const user = await userDB.getStudentsById(studentId);
 
   if (!user) {
-    return res.status(404).send({ message: `User ${studentId} not found` });
+    return res.status(404).send({ message: `Student ${studentId} not found` });
   }
 
   return res.status(200).send(user);
 }
 
 module.exports = {
-  getUserById,
-  getUsers
+  getStudentsById,
+  getStudents
 }

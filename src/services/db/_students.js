@@ -16,7 +16,7 @@ const createStudent = async (idEnroll) => {
   return await postgres.read.queryFirstOrNull(query, values);
 };
 
-const getUsers = async () => {
+const getStudents = async () => {
   const query = `
     SELECT 
       * 
@@ -27,7 +27,7 @@ const getUsers = async () => {
   return await postgres.read.query(query);
 };
 
-const getUserById = async (id) => {
+const getStudentsById = async (id) => {
   const query = `
     SELECT 
       * 
@@ -43,6 +43,6 @@ const getUserById = async (id) => {
 
 module.exports = {
   createStudent,
-  getUserById,
-  getUsers
+  getStudentsById,
+  getStudents
 }

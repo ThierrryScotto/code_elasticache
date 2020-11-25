@@ -1,25 +1,25 @@
 "use strict"
 
 // Database
-const professor = require("../../services/db/_professor");
+const professor = require("../../services/db/_professors");
 
 const getProfessors = async (req, res) => {
-  const users = await professor.getProfessors();
+  const professors = await professor.getProfessors();
 
-  if (!users) {
-    return res.status(404).send({ message: "No user found " });
+  if (!professors) {
+    return res.status(404).send({ message: "Professor not found" });
   }
 
-  return res.status(200).send(users);
+  return res.status(200).send(professors);
 }
 
 const getProfessorById = async (req, res) => {
-  const { studentId } = req.params;
+  const { professorId } = req.params;
 
-  const user = await professor.getProfessorById(studentId);
+  const user = await professor.getProfessorById(professorId);
 
   if (!user) {
-    return res.status(404).send({ message: `User ${studentId} not found` });
+    return res.status(404).send({ message: `Professor ${professorId} not found` });
   }
 
   return res.status(200).send(user);
