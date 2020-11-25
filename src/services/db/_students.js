@@ -3,6 +3,9 @@
 // dependencies
 const { postgres } = require('common-api').database;
 
+// redis
+const elasticache = require("../../services/elasticache/_redis");
+
 const createStudent = async (idEnroll) => {
   const query = `
     INSERT INTO students 

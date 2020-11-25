@@ -4,7 +4,7 @@
 const { postgres } = require('common-api').database;
 
 // redis
-const redis = require("../../services/elasticache/_redis");
+const elasticache = require("../../services/elasticache/_redis");
 
 const createCourse = async (course) => {
   const query = `
