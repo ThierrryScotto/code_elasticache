@@ -17,6 +17,12 @@ const createProfessor = async (idEnroll) => {
 };
 
 const getProfessors = async () => {
+  const key        = 'all-professors';
+  const professors = await elasticache.getJson(key);   
+
+  if (professors) { 
+    return professors;
+  }
   const query = `
     SELECT 
       * 
@@ -24,10 +30,20 @@ const getProfessors = async () => {
       professors
   `;
 
-  return await postgres.read.query(query);
+  const result = await postgres.read.query(query);
+  await elasticache.setJson(key, result);
+
+  return result;
 };
 
 const getProfessorById = async (id) => {
+  const key        = `professor-${id}`;
+  const professor  = await elasticache.getJson(key);   
+
+  if (professor) { 
+    return professor;
+  }
+
   const query = `
     SELECT 
       * 
@@ -38,7 +54,10 @@ const getProfessorById = async (id) => {
   `;
 
   const values = [id];
-  return await postgres.read.queryFirstOrNull(query, values);
+  const result = await postgres.read.queryFirstOrNull(query, values);
+  await elasticache.setJson(key, result);
+
+  return result;
 };
 
 module.exports = {
